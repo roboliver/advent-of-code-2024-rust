@@ -1,4 +1,7 @@
 use std::collections::HashMap;
+use crate::common::DaySpec;
+
+pub const DAY_ONE: DaySpec<u32, usize> = DaySpec { day_num: 1, part_1, part_2 };
 
 pub fn part_1(input: &str) -> u32 {
     let (mut left, mut right) = parse_input(input);
