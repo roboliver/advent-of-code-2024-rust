@@ -27,7 +27,8 @@ pub fn part_2(input: &str) -> usize {
 fn parse_input(input: &str) -> (Vec<u32>, Vec<u32>) {
     let mut left = Vec::new();
     let mut right = Vec::new();
-    input.lines().map(|line| line.split("   "))
+    input.lines()
+        .map(|line| line.split("   "))
         .for_each(|mut pair| {
             left.push(
                 pair.next().expect("missing left value")
