@@ -18,29 +18,25 @@ pub fn part_2(input: &str) -> usize {
         .count()
 }
 
-fn is_safe(report: &Vec<u8>) -> bool {
-    let report_ascending: Cow<Vec<u8>> = if report[0] < report[1] {
+fn is_safe(report: &[u8]) -> bool {
+    let report_ascending: Cow<[u8]> = if report[0] < report[1] {
         Cow::Borrowed(report)
     } else {
         Cow::Owned(report.iter().rev().copied().collect())
     };
-    for i in 0..report_ascending.len() - 1 {
-        if !is_level_pair_safe_ascending(report_ascending[i], report_ascending[i + 1]) {
-            return false;
-        }
-    }
-    true
+    report_ascending.windows(2)
+        .all(|pair| is_level_pair_safe_ascending(pair[0], pair[1]))
 }
 
-fn is_safe_actual(report: &Vec<u8>) -> bool {
-    if is_safe_actual_ascending(Cow::Borrowed(report)) {
+fn is_safe_actual(report: &[u8]) -> bool {
+    if is_safe_actual_ascending(report) {
         return true;
     }
     let report_reversed: Vec<u8> = report.iter().rev().copied().collect();
-    is_safe_actual_ascending(Cow::Owned(report_reversed))
+    is_safe_actual_ascending(&report_reversed)
 }
 
-fn is_safe_actual_ascending(report_ascending: Cow<Vec<u8>>) -> bool {
+fn is_safe_actual_ascending(report_ascending: &[u8]) -> bool {
     let mut bad_level_found = false;
     let mut i = 0;
     while i < report_ascending.len() - 1 {
@@ -50,13 +46,13 @@ fn is_safe_actual_ascending(report_ascending: Cow<Vec<u8>>) -> bool {
             }
             bad_level_found = true;
             let can_ignore = ignore_first(i) ||
-                ignore_last(&report_ascending, i) ||
-                ignore_current(&report_ascending, i) ||
-                ignore_next(&report_ascending, i);
+                ignore_last(report_ascending, i) ||
+                ignore_current(report_ascending, i) ||
+                ignore_next(report_ascending, i);
             if !can_ignore {
                 return false;
             }
-            if ignore_next(&report_ascending, i) {
+            if ignore_next(report_ascending, i) {
                 i += 1;
             }
         }
@@ -69,16 +65,16 @@ fn ignore_first(i: usize) -> bool {
     i == 0
 }
 
-fn ignore_last(report_ascending: &Cow<Vec<u8>>, i: usize) -> bool {
+fn ignore_last(report_ascending: &[u8], i: usize) -> bool {
     usize::from(i) == report_ascending.len() - 2
 }
 
-fn ignore_current(report_ascending: &Cow<Vec<u8>>, i: usize) -> bool {
+fn ignore_current(report_ascending: &[u8], i: usize) -> bool {
     i > 0 &&
         is_level_pair_safe_ascending(report_ascending[i - 1], report_ascending[i + 1])
 }
 
-fn ignore_next(report_ascending: &Cow<Vec<u8>>, i: usize) -> bool {
+fn ignore_next(report_ascending: &[u8], i: usize) -> bool {
     usize::from(i) < report_ascending.len() - 2 &&
         is_level_pair_safe_ascending(report_ascending[i], report_ascending[i + 2])
 }
