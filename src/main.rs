@@ -1,6 +1,6 @@
-use std::borrow::Cow;
-use advent_of_code_2024_rust::common::PartOutput;
 use advent_of_code_2024_rust::days;
+use advent_of_code_2024_rust::PartOutput;
+use std::borrow::Cow;
 
 fn main() {
     let days = days();

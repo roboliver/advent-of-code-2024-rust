@@ -1,17 +1,13 @@
 use std::borrow::Cow;
 use std::fmt::Display;
 use std::{fmt, fs, io};
+use crate::PartOutput;
 
 pub trait Day {
     fn read_input(&self) -> Result<Cow<str>, ReadError>;
     fn day_num(&self) -> u8;
     fn run_part_1(&self, input: &str) -> PartOutput;
     fn run_part_2(&self, input: &str) -> PartOutput;
-}
-
-pub enum PartOutput {
-    Impl(String),
-    Todo,
 }
 
 #[derive(Debug)]
