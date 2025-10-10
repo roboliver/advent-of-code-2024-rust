@@ -66,7 +66,7 @@ fn ignore_first(i: usize) -> bool {
 }
 
 fn ignore_last(report_ascending: &[u8], i: usize) -> bool {
-    usize::from(i) == report_ascending.len() - 2
+    i == report_ascending.len() - 2
 }
 
 fn ignore_current(report_ascending: &[u8], i: usize) -> bool {
@@ -75,12 +75,12 @@ fn ignore_current(report_ascending: &[u8], i: usize) -> bool {
 }
 
 fn ignore_next(report_ascending: &[u8], i: usize) -> bool {
-    usize::from(i) < report_ascending.len() - 2 &&
+    i < report_ascending.len() - 2 &&
         is_level_pair_safe_ascending(report_ascending[i], report_ascending[i + 2])
 }
 
 fn is_level_pair_safe_ascending(first: u8, second: u8) -> bool {
-    let diff = i8::try_from(second).unwrap() - i8::try_from(first).unwrap();
+    let diff = i16::from(second) - i16::from(first);
     diff >= 1 && diff <= 3
 }
 
