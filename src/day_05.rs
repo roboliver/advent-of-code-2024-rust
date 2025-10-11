@@ -27,7 +27,8 @@ fn order_pages<'a>(page_ordering_rules: &HashMap<u32, HashSet<u32>>, updates: &'
             if page_2_prevs.contains(&page_1) {
                 return Ordering::Less;
             }
-        } else if let Some(page_1_prevs) = page_ordering_rules.get(&page_1) {
+        }
+        if let Some(page_1_prevs) = page_ordering_rules.get(&page_1) {
             if page_1_prevs.contains(&page_2) {
                 return Ordering::Greater;
             }
