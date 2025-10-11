@@ -2,10 +2,12 @@ use crate::common::{Day, DaySpecTodo};
 use crate::day_01::DAY_ONE;
 use crate::day_02::DAY_TWO;
 use crate::day_03::DAY_THREE;
+use crate::day_04::DAY_FOUR;
 
 mod day_01;
 mod day_02;
 mod day_03;
+mod day_04;
 mod common;
 
 pub fn days<'a>() -> Vec<Box<dyn Day>> {
@@ -13,6 +15,7 @@ pub fn days<'a>() -> Vec<Box<dyn Day>> {
         Box::new(DAY_ONE.clone()),
         Box::new(DAY_TWO.clone()),
         Box::new(DAY_THREE.clone()),
+        Box::new(DAY_FOUR.clone()),
     ];
     for day_todo_num in days.len()..=25 {
         let day_todo = DaySpecTodo {

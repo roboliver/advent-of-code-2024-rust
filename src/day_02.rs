@@ -8,7 +8,6 @@ pub fn part_1(input: &str) -> usize {
     reports.iter()
         .filter(|&report| is_safe(report))
         .count()
-
 }
 
 pub fn part_2(input: &str) -> usize {
