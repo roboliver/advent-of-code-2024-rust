@@ -16,26 +16,25 @@ pub fn part_2(input: &str) -> u32 {
     let (page_ordering_rules, mut updates) = parse_input(input);
     updates.iter_mut()
         .filter(|update| !is_ordered(&page_ordering_rules, update))
-        .map(|update| order_pages(&page_ordering_rules, update))
-        .map(|update| middle_page(&update))
+        .map(|update| {
+            order_pages(&page_ordering_rules, update);
+            middle_page(&update)
+        })
         .sum()
 }
 
-fn order_pages<'a>(page_ordering_rules: &HashMap<u32, HashSet<u32>>, updates: &'a mut Vec<u32>) -> &'a Vec<u32> {
-    updates.sort_by(|&page_1, &page_2| {
-        if let Some(page_2_prevs) = page_ordering_rules.get(&page_2) {
-            if page_2_prevs.contains(&page_1) {
-                return Ordering::Less;
-            }
+fn order_pages(page_ordering_rules: &HashMap<u32, HashSet<u32>>, update: &mut [u32]) {
+    update.sort_unstable_by(|&page_1, &page_2| {
+        let page_1_before_2 = page_ordering_rules.get(&page_2)
+            .map_or(false, |pages_before_2| pages_before_2.contains(&page_1));
+        let page_2_before_1 = page_ordering_rules.get(&page_1)
+            .map_or(false, |pages_before_1| pages_before_1.contains(&page_2));
+        match (page_1_before_2, page_2_before_1) {
+            (true, false) => Ordering::Less,
+            (false, true) => Ordering::Greater,
+            _ => Ordering::Equal,
         }
-        if let Some(page_1_prevs) = page_ordering_rules.get(&page_1) {
-            if page_1_prevs.contains(&page_2) {
-                return Ordering::Greater;
-            }
-        }
-        Ordering::Equal
     });
-    updates
 }
 
 fn is_ordered(page_ordering_rules: &HashMap<u32, HashSet<u32>>, update: &[u32]) -> bool {
