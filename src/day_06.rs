@@ -6,7 +6,7 @@ pub const DAY_SIX: DaySpec<usize, usize> = DaySpec { day_num: 6, part_1, part_2 
 pub fn part_1(input: &str) -> usize {
     let (Lab {obstacles, length, width}, mut current) = parse_input(input);
     let mut visited = HashSet::new();
-    while in_map(&current.pos, width, length) {
+    while in_map(current.pos, width, length) {
         visited.insert(current.pos);
         current = step_guard(&current, &obstacles, None);
     }
@@ -34,7 +34,7 @@ pub fn part_2(input: &str) -> usize {
         let mut diverted_current = current.clone();
         let mut diverted_route_traversed = HashSet::new();
 
-        while in_map(&diverted_current.pos, width, length) {
+        while in_map(diverted_current.pos, width, length) {
             diverted_current = step_guard(&diverted_current, &obstacles, Some(new_obstacle));
 
             if route_traversed.contains(&diverted_current) || diverted_route_traversed.contains(&diverted_current) {
@@ -52,18 +52,16 @@ fn calculate_route(lab: &Lab, start: &DirectedPosition) -> Vec<DirectedPosition>
     let mut current = start.clone();
     let Lab { obstacles, width, length } = lab;
     let mut route = Vec::new();
-    while in_map(&current.pos, *width, *length) {
+    while in_map(current.pos, *width, *length) {
         route.push(current.clone());
         current = step_guard(&current, obstacles, None);
     }
     route
 }
 
-fn in_map(point: &Point, width: usize, length: usize) -> bool {
-    let width_i = isize::try_from(width).unwrap();
-    let length_i = isize::try_from(length).unwrap();
-    point.x >= 0 && isize::from(point.x) < length_i &&
-        point.y >= 0 && isize::from(point.y) < width_i
+fn in_map(point: Point, width: usize, length: usize) -> bool {
+    point.x >= 0 && point.x < isize::try_from(length).unwrap() &&
+        point.y >= 0 && point.y < isize::try_from(width).unwrap()
 }
 
 fn step_guard(
