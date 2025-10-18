@@ -8,7 +8,8 @@ const PATTERN: &str = "mul\\(([1-9][0-9]*),([1-9][0-9]*)\\)";
 pub fn part_1(input: &str) -> u32 {
     let memory = parse_input(input);
     let regex = Regex::new(PATTERN).unwrap();
-    regex.captures_iter(&memory)
+    regex
+        .captures_iter(&memory)
         .map(|cap| extract_mul(&cap, 1) * extract_mul(&cap, 2))
         .sum()
 }
@@ -30,19 +31,20 @@ pub fn part_2(input: &str) -> u32 {
         } else if enabled {
             sum += extract_mul(&cap, 3) * extract_mul(&cap, 4)
         }
-    };
+    }
     sum
 }
 
 fn extract_mul(cap: &Captures, i: usize) -> u32 {
-    cap.get(i).unwrap()
+    cap.get(i)
+        .unwrap()
         .as_str()
-        .parse::<u32>().unwrap()
+        .parse::<u32>()
+        .unwrap()
 }
 
 fn parse_input(input: &str) -> String {
-    input.lines()
-        .collect()
+    input.lines().collect()
 }
 
 #[cfg(test)]

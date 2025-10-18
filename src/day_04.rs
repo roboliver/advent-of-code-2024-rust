@@ -1,6 +1,7 @@
 use crate::common::DaySpec;
 
-pub const DAY_FOUR: DaySpec<usize, usize> = DaySpec { day_num: 4, part_1, part_2 };
+pub const DAY_FOUR: DaySpec<usize, usize> =
+    DaySpec { day_num: 4, part_1, part_2 };
 
 pub fn part_1(input: &str) -> usize {
     let word_search = parse_input(input);
@@ -12,13 +13,18 @@ pub fn part_2(input: &str) -> usize {
     do_part(&word_search, &crossmas_arrangements(), 'A')
 }
 
-fn do_part(word_search: &[Vec<char>], arrangements: &[Vec<LetterPosition>], starting_letter: char) -> usize {
+fn do_part(
+    word_search: &[Vec<char>],
+    arrangements: &[Vec<LetterPosition>],
+    starting_letter: char,
+) -> usize {
     let mut matches = 0;
     for row in 0..word_search.len() {
         for col in 0..word_search[row].len() {
             let letter = word_search[row][col];
             if letter == starting_letter {
-                matches += arrangements.iter()
+                matches += arrangements
+                    .iter()
                     .filter(|it| check_arrangement(word_search, it, row, col))
                     .count();
             }
@@ -31,20 +37,22 @@ fn check_arrangement(
     word_search: &[Vec<char>],
     arrangement: &[LetterPosition],
     start_row: usize,
-    start_col: usize) -> bool {
+    start_col: usize,
+) -> bool {
     for letter_position in arrangement {
         let row = usize::try_from(
-            isize::try_from(start_row).unwrap() + letter_position.row_adjust
+            isize::try_from(start_row).unwrap() + letter_position.row_adjust,
         );
         let col = usize::try_from(
-            isize::try_from(start_col).unwrap() + letter_position.col_adjust
+            isize::try_from(start_col).unwrap() + letter_position.col_adjust,
         );
         let (Ok(row_u), Ok(col_u)) = (row, col) else {
             return false;
         };
-        if row_u >= word_search.len() ||
-            col_u >= word_search.len() ||
-            word_search[row_u][col_u] != letter_position.letter {
+        if row_u >= word_search.len()
+            || col_u >= word_search.len()
+            || word_search[row_u][col_u] != letter_position.letter
+        {
             return false;
         }
     }
@@ -54,7 +62,7 @@ fn check_arrangement(
 struct LetterPosition {
     row_adjust: isize,
     col_adjust: isize,
-    letter: char
+    letter: char,
 }
 
 struct XmasArrangement {
@@ -66,6 +74,7 @@ struct XmasArrangement {
     s_col: isize,
 }
 
+#[rustfmt::skip]
 fn xmas_arrangements() -> Vec<Vec<LetterPosition>> {
     let arrangements = vec![
         XmasArrangement { m_row:  0, m_col:  1, a_row:  0, a_col:  2, s_row:  0, s_col:  3 }, // up
@@ -98,6 +107,7 @@ struct CrossMasArrangement {
     s2_col: isize,
 }
 
+#[rustfmt::skip]
 fn crossmas_arrangements() -> Vec<Vec<LetterPosition>> {
     let arrangements = vec![
         CrossMasArrangement {
@@ -129,7 +139,8 @@ fn crossmas_arrangements() -> Vec<Vec<LetterPosition>> {
 }
 
 fn parse_input(input: &str) -> Vec<Vec<char>> {
-    input.lines()
+    input
+        .lines()
         .map(|line| line.chars().collect())
         .collect()
 }

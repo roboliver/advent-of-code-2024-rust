@@ -1,18 +1,21 @@
-use std::borrow::Cow;
 use crate::common::DaySpec;
+use std::borrow::Cow;
 
-pub const DAY_TWO: DaySpec<usize, usize> = DaySpec { day_num: 2, part_1, part_2 };
+pub const DAY_TWO: DaySpec<usize, usize> =
+    DaySpec { day_num: 2, part_1, part_2 };
 
 pub fn part_1(input: &str) -> usize {
     let reports = parse_input(input);
-    reports.iter()
+    reports
+        .iter()
         .filter(|&report| is_safe(report))
         .count()
 }
 
 pub fn part_2(input: &str) -> usize {
     let reports = parse_input(input);
-    reports.iter()
+    reports
+        .iter()
         .filter(|&report| is_safe_actual(report))
         .count()
 }
@@ -23,7 +26,8 @@ fn is_safe(report: &[u8]) -> bool {
     } else {
         Cow::Owned(report.iter().rev().copied().collect())
     };
-    report_ascending.windows(2)
+    report_ascending
+        .windows(2)
         .all(|pair| is_level_pair_safe_ascending(pair[0], pair[1]))
 }
 
@@ -39,15 +43,18 @@ fn is_safe_actual_ascending(report_ascending: &[u8]) -> bool {
     let mut bad_level_found = false;
     let mut i = 0;
     while i < report_ascending.len() - 1 {
-        if !is_level_pair_safe_ascending(report_ascending[i], report_ascending[i + 1]) {
+        if !is_level_pair_safe_ascending(
+            report_ascending[i],
+            report_ascending[i + 1],
+        ) {
             if bad_level_found {
                 return false;
             }
             bad_level_found = true;
-            let can_ignore = ignore_first(i) ||
-                ignore_last(report_ascending, i) ||
-                ignore_current(report_ascending, i) ||
-                ignore_next(report_ascending, i);
+            let can_ignore = ignore_first(i)
+                || ignore_last(report_ascending, i)
+                || ignore_current(report_ascending, i)
+                || ignore_next(report_ascending, i);
             if !can_ignore {
                 return false;
             }
@@ -69,13 +76,19 @@ fn ignore_last(report_ascending: &[u8], i: usize) -> bool {
 }
 
 fn ignore_current(report_ascending: &[u8], i: usize) -> bool {
-    i > 0 &&
-        is_level_pair_safe_ascending(report_ascending[i - 1], report_ascending[i + 1])
+    i > 0
+        && is_level_pair_safe_ascending(
+            report_ascending[i - 1],
+            report_ascending[i + 1],
+        )
 }
 
 fn ignore_next(report_ascending: &[u8], i: usize) -> bool {
-    i < report_ascending.len() - 2 &&
-        is_level_pair_safe_ascending(report_ascending[i], report_ascending[i + 2])
+    i < report_ascending.len() - 2
+        && is_level_pair_safe_ascending(
+            report_ascending[i],
+            report_ascending[i + 2],
+        )
 }
 
 fn is_level_pair_safe_ascending(first: u8, second: u8) -> bool {
@@ -84,10 +97,14 @@ fn is_level_pair_safe_ascending(first: u8, second: u8) -> bool {
 }
 
 fn parse_input(input: &str) -> Vec<Vec<u8>> {
-     input.lines()
-        .map(|line| line.split(" ").into_iter()
-            .map(|num| num.parse().unwrap())
-            .collect::<Vec<u8>>())
+    input
+        .lines()
+        .map(|line| {
+            line.split(" ")
+                .into_iter()
+                .map(|num| num.parse().unwrap())
+                .collect::<Vec<u8>>()
+        })
         .collect::<Vec<Vec<u8>>>()
 }
 

@@ -1,5 +1,5 @@
-use advent_of_code_2024_rust::days;
 use advent_of_code_2024_rust::PartOutput;
+use advent_of_code_2024_rust::days;
 use std::borrow::Cow;
 
 fn main() {
