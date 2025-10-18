@@ -49,15 +49,15 @@ fn parse_input(input: &str) -> String {
 mod tests {
     use super::*;
 
-    const INPUT: &str = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))";
-
     #[test]
     fn part_1_sample() {
-        assert_eq!(161, part_1(INPUT));
+        let input = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))";
+        assert_eq!(161, part_1(input));
     }
 
     #[test]
     fn part_2_sample() {
-        assert_eq!(48, part_2(INPUT));
+        let input = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))";
+        assert_eq!(48, part_2(input));
     }
 }
