@@ -4,7 +4,7 @@ use std::{fmt, fs, io};
 use crate::PartOutput;
 
 pub trait Day {
-    fn read_input(&self) -> Result<Cow<str>, ReadError>;
+    fn read_input(&'_ self) -> Result<Cow<'_, str>, ReadError>;
     fn day_num(&self) -> u8;
     fn run_part_1(&self, input: &str) -> PartOutput;
     fn run_part_2(&self, input: &str) -> PartOutput;
@@ -37,7 +37,7 @@ pub struct DaySpec<T: Display, U: Display> {
 }
 
 impl<T: Display, U: Display> Day for DaySpec<T, U> {
-    fn read_input(&self) -> Result<Cow<str>, ReadError> {
+    fn read_input(&'_ self) -> Result<Cow<'_, str>, ReadError> {
         let day_num = self.day_num;
         if day_num == 0 || day_num > 25 {
             return Err(ReadError::DayError(day_num));
@@ -69,7 +69,7 @@ pub struct DaySpecTodo {
 }
 
 impl Day for DaySpecTodo {
-    fn read_input(&self) -> Result<Cow<str>, ReadError> {
+    fn read_input(&'_ self) -> Result<Cow<'_, str>, ReadError> {
         Ok(Cow::Borrowed(""))
     }
 
