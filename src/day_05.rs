@@ -128,11 +128,11 @@ mod tests {
 
     #[test]
     fn part_1_sample() {
-        assert_eq!(5964, part_1(INPUT));
+        assert_eq!(143, part_1(INPUT));
     }
 
     #[test]
     fn part_2_sample() {
-        assert_eq!(4719, part_2(INPUT));
+        assert_eq!(123, part_2(INPUT));
     }
 }
