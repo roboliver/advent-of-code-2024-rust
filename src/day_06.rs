@@ -1,11 +1,10 @@
-use crate::common::DaySpec;
 use std::collections::HashSet;
+use crate::common::DaySpec;
 
-pub const DAY_SIX: DaySpec<usize, usize> =
-    DaySpec { day_num: 6, part_1, part_2 };
+pub const DAY_SIX: DaySpec<usize, usize> = DaySpec { day_num: 6, part_1, part_2 };
 
 pub fn part_1(input: &str) -> usize {
-    let (Lab { obstacles, length, width }, mut current) = parse_input(input);
+    let (Lab {obstacles, length, width}, mut current) = parse_input(input);
     let mut visited = HashSet::new();
     while in_map(current.pos, width, length) {
         visited.insert(current.pos);
@@ -28,9 +27,7 @@ pub fn part_2(input: &str) -> usize {
         tiles_visited.insert(current.pos);
 
         let new_obstacle = current.pos.step(current.dir);
-        if obstacles.contains(&new_obstacle)
-            || tiles_visited.contains(&new_obstacle)
-        {
+        if obstacles.contains(&new_obstacle) || tiles_visited.contains(&new_obstacle) {
             continue;
         }
 
@@ -38,12 +35,9 @@ pub fn part_2(input: &str) -> usize {
         let mut diverted_route_traversed = HashSet::new();
 
         while in_map(diverted_current.pos, width, length) {
-            diverted_current =
-                step_guard(&diverted_current, &obstacles, Some(new_obstacle));
+            diverted_current = step_guard(&diverted_current, &obstacles, Some(new_obstacle));
 
-            if route_traversed.contains(&diverted_current)
-                || diverted_route_traversed.contains(&diverted_current)
-            {
+            if route_traversed.contains(&diverted_current) || diverted_route_traversed.contains(&diverted_current) {
                 infinite_loop_positions.insert(new_obstacle);
                 break;
             }
@@ -54,10 +48,7 @@ pub fn part_2(input: &str) -> usize {
     infinite_loop_positions.len()
 }
 
-fn calculate_route(
-    lab: &Lab,
-    start: &DirectedPosition,
-) -> Vec<DirectedPosition> {
+fn calculate_route(lab: &Lab, start: &DirectedPosition) -> Vec<DirectedPosition> {
     let mut current = start.clone();
     let Lab { obstacles, width, length } = lab;
     let mut route = Vec::new();
@@ -69,20 +60,16 @@ fn calculate_route(
 }
 
 fn in_map(point: Point, width: usize, length: usize) -> bool {
-    point.x >= 0
-        && point.x < isize::try_from(length).unwrap()
-        && point.y >= 0
-        && point.y < isize::try_from(width).unwrap()
+    point.x >= 0 && point.x < isize::try_from(length).unwrap() &&
+        point.y >= 0 && point.y < isize::try_from(width).unwrap()
 }
 
 fn step_guard(
     current: &DirectedPosition,
     obstacles: &HashSet<Point>,
-    extra_obstacle: Option<Point>,
-) -> DirectedPosition {
+    extra_obstacle: Option<Point>) -> DirectedPosition {
     let next_pos = current.pos.step(current.dir);
-    if obstacles.contains(&next_pos)
-        || extra_obstacle.map_or(false, |o| o == next_pos)
+    if obstacles.contains(&next_pos) || extra_obstacle.map_or(false, |o| o == next_pos)
     {
         DirectedPosition { pos: current.pos, dir: current.dir.rotate() }
     } else {
@@ -103,19 +90,15 @@ fn parse_input(input: &str) -> (Lab, DirectedPosition) {
             if tile == '#' {
                 obstacles.insert(Point {
                     x: isize::try_from(col).unwrap(),
-                    y: isize::try_from(row).unwrap(),
+                    y: isize::try_from(row).unwrap()
                 });
             } else if let Some(dir) = Direction::from_tile(tile) {
-                if start
-                    .replace(DirectedPosition {
-                        pos: Point {
-                            x: isize::try_from(col).unwrap(),
-                            y: isize::try_from(row).unwrap(),
-                        },
-                        dir,
-                    })
-                    .is_some()
-                {
+                if start.replace(
+                    DirectedPosition { pos: Point {
+                        x: isize::try_from(col).unwrap(),
+                        y: isize::try_from(row).unwrap()
+                    }, dir }
+                ).is_some() {
                     panic!("multiple guards found");
                 }
             }
@@ -126,10 +109,7 @@ fn parse_input(input: &str) -> (Lab, DirectedPosition) {
 }
 
 #[derive(Eq, PartialEq, Hash, Copy, Clone)]
-struct Point {
-    x: isize,
-    y: isize,
-}
+struct Point { x: isize, y: isize }
 
 impl Point {
     fn step(&self, dir: Direction) -> Point {
@@ -143,12 +123,7 @@ impl Point {
 }
 
 #[derive(Eq, PartialEq, Hash, Copy, Clone)]
-enum Direction {
-    NORTH,
-    EAST,
-    SOUTH,
-    WEST,
-}
+enum Direction { NORTH, EAST, SOUTH, WEST }
 
 impl Direction {
     fn from_tile(tile: char) -> Option<Direction> {
@@ -172,10 +147,7 @@ impl Direction {
 }
 
 #[derive(Eq, PartialEq, Hash, Clone)]
-struct DirectedPosition {
-    pos: Point,
-    dir: Direction,
-}
+struct DirectedPosition { pos: Point, dir: Direction }
 
 struct Lab {
     obstacles: HashSet<Point>,

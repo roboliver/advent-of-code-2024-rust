@@ -1,5 +1,5 @@
-use crate::common::DaySpec;
 use std::collections::HashMap;
+use crate::common::DaySpec;
 
 pub const DAY_ONE: DaySpec<u32, usize> = DaySpec { day_num: 1, part_1, part_2 };
 
@@ -14,13 +14,11 @@ pub fn part_1(input: &str) -> u32 {
 
 pub fn part_2(input: &str) -> usize {
     let (left, right) = parse_input(input);
-    let right_counts: HashMap<u32, usize> =
-        right
-            .iter()
-            .fold(HashMap::new(), |mut counts, &x| {
-                *counts.entry(x).or_insert(0) += 1;
-                counts
-            });
+    let right_counts: HashMap<u32, usize> = right.iter()
+        .fold(HashMap::new(), |mut counts, &x| {
+            *counts.entry(x).or_insert(0) += 1;
+            counts
+        });
     left.iter()
         .map(|&x| (x as usize) * right_counts.get(&x).unwrap_or(&0))
         .sum()
@@ -29,21 +27,16 @@ pub fn part_2(input: &str) -> usize {
 fn parse_input(input: &str) -> (Vec<u32>, Vec<u32>) {
     let mut left = Vec::new();
     let mut right = Vec::new();
-    input
-        .lines()
+    input.lines()
         .map(|line| line.split("   "))
         .for_each(|mut pair| {
             left.push(
-                pair.next()
-                    .expect("missing left value")
-                    .parse()
-                    .expect("left value not a number"),
+                pair.next().expect("missing left value")
+                    .parse().expect("left value not a number")
             );
             right.push(
-                pair.next()
-                    .expect("missing right value")
-                    .parse()
-                    .expect("right value not a number"),
+                pair.next().expect("missing right value")
+                    .parse().expect("right value not a number")
             );
         });
     (left, right)

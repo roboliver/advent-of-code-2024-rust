@@ -1,7 +1,7 @@
-use crate::PartOutput;
 use std::borrow::Cow;
 use std::fmt::Display;
 use std::{fmt, fs, io};
+use crate::PartOutput;
 
 pub trait Day {
     fn read_input(&self) -> Result<Cow<str>, ReadError>;
@@ -13,18 +13,18 @@ pub trait Day {
 #[derive(Debug)]
 pub enum ReadError {
     DayError(u8),
-    FileError(io::Error),
+    FileError(io::Error)
 }
 
 impl Display for ReadError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match &self {
-            ReadError::DayError(day_num) => {
-                write!(f, "invalid day '{}': must be between 1 and 25", day_num)
-            }
+            ReadError::DayError(day_um) => {
+                write!(f, "{} is not a valid day: day values must be between 1 and 25", day_um)
+            },
             ReadError::FileError(e) => {
                 write!(f, "cannot read file: {}", e.to_string())
-            }
+            },
         }
     }
 }
@@ -52,16 +52,20 @@ impl<T: Display, U: Display> Day for DaySpec<T, U> {
     }
 
     fn run_part_1(&self, input: &str) -> PartOutput {
-        PartOutput::Impl((self.part_1)(input).to_string())
+        PartOutput::Impl(
+            (self.part_1)(input).to_string()
+        )
     }
 
     fn run_part_2(&self, input: &str) -> PartOutput {
-        PartOutput::Impl((self.part_2)(input).to_string())
+        PartOutput::Impl(
+            (self.part_2)(input).to_string()
+        )
     }
 }
 
 pub struct DaySpecTodo {
-    pub day_num: u8,
+    pub day_num: u8
 }
 
 impl Day for DaySpecTodo {
