@@ -6,13 +6,13 @@ use crate::day_04::DAY_FOUR;
 use crate::day_05::DAY_FIVE;
 use crate::day_06::DAY_SIX;
 
+mod common;
 mod day_01;
 mod day_02;
 mod day_03;
 mod day_04;
 mod day_05;
 mod day_06;
-mod common;
 
 pub fn days<'a>() -> Vec<Box<dyn Day>> {
     let mut days: Vec<Box<dyn Day>> = vec![
@@ -28,7 +28,7 @@ pub fn days<'a>() -> Vec<Box<dyn Day>> {
             day_num: u8::try_from(day_todo_num).unwrap()
         };
         days.push(Box::new(day_todo));
-    };
+    }
     days
 }
 
