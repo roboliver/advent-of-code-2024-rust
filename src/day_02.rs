@@ -1,7 +1,13 @@
 use std::borrow::Cow;
 use crate::common::DaySpec;
 
-pub const DAY_TWO: DaySpec<usize, usize> = DaySpec { day_num: 2, part_1, part_2 };
+pub const DAY_TWO: DaySpec<usize, usize> = DaySpec {
+    day_num: 2,
+    part_1_name: "safe reports",
+    part_1,
+    part_2_name: "actual safe reports",
+    part_2,
+};
 
 pub fn part_1(input: &str) -> usize {
     let reports = parse_input(input);

@@ -7,8 +7,8 @@ fn main() {
     for day in days {
         println!("Day {}", day.day_num());
         let input = day.read_input().unwrap();
-        println!("Part 1: {}", part_output_str(day.run_part_1(&input)));
-        println!("Part 2: {}", part_output_str(day.run_part_2(&input)));
+        println!("Part 1 ({}): {}", day.part_1_name(), part_output_str(day.run_part_1(&input)));
+        println!("Part 2 ({}): {}", day.part_2_name(), part_output_str(day.run_part_2(&input)));
         println!();
     }
 }

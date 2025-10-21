@@ -7,6 +7,8 @@ use crate::PartOutput;
 pub trait Day {
     fn read_input(&'_ self) -> Result<Cow<'_, str>, ReadError>;
     fn day_num(&self) -> u8;
+    fn part_1_name(&self) -> &'static str;
+    fn part_2_name(&self) -> &'static str;
     fn run_part_1(&self, input: &str) -> PartOutput;
     fn run_part_2(&self, input: &str) -> PartOutput;
 }
@@ -33,6 +35,8 @@ impl Display for ReadError {
 #[derive(Clone)]
 pub struct DaySpec<T: Display, U: Display> {
     pub day_num: u8,
+    pub part_1_name: &'static str,
+    pub part_2_name: &'static str,
     pub part_1: fn(&str) -> T,
     pub part_2: fn(&str) -> U,
 }
@@ -50,6 +54,14 @@ impl<T: Display, U: Display> Day for DaySpec<T, U> {
 
     fn day_num(&self) -> u8 {
         self.day_num
+    }
+
+    fn part_1_name(&self) -> &'static str {
+        self.part_1_name
+    }
+
+    fn part_2_name(&self) -> &'static str {
+        self.part_2_name
     }
 
     fn run_part_1(&self, input: &str) -> PartOutput {
@@ -76,6 +88,14 @@ impl Day for DaySpecTodo {
 
     fn day_num(&self) -> u8 {
         self.day_num
+    }
+
+    fn part_1_name(&self) -> &'static str {
+        "TODO"
+    }
+
+    fn part_2_name(&self) -> &'static str {
+        "TODO"
     }
 
     fn run_part_1(&self, _input: &str) -> PartOutput {

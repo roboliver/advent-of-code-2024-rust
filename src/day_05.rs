@@ -2,7 +2,13 @@ use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
 use crate::common::DaySpec;
 
-pub const DAY_FIVE: DaySpec<u32, u32> = DaySpec { day_num: 5, part_1, part_2 };
+pub const DAY_FIVE: DaySpec<u32, u32> = DaySpec {
+    day_num: 5,
+    part_1_name: "middle page sum of correctly-ordered updates",
+    part_1,
+    part_2_name: "middle page sum of incorrectly-ordered updates, after ordering",
+    part_2,
+};
 
 pub fn part_1(input: &str) -> u32 {
     let (page_ordering_rules, updates) = parse_input(input);

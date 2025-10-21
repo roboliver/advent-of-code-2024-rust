@@ -2,7 +2,13 @@ use crate::common::DaySpec;
 
 use regex::{Captures, Regex};
 
-pub const DAY_THREE: DaySpec<u32, u32> = DaySpec { day_num: 3, part_1, part_2 };
+pub const DAY_THREE: DaySpec<u32, u32> = DaySpec {
+    day_num: 3,
+    part_1_name: "multiplication sum",
+    part_1,
+    part_2_name: "enabled multiplication sum",
+    part_2,
+};
 const PATTERN: &str = "mul\\(([1-9][0-9]*),([1-9][0-9]*)\\)";
 
 pub fn part_1(input: &str) -> u32 {

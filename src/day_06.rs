@@ -1,7 +1,13 @@
 use std::collections::HashSet;
 use crate::common::{DaySpec, Dimensions, Point};
 
-pub const DAY_SIX: DaySpec<usize, usize> = DaySpec { day_num: 6, part_1, part_2 };
+pub const DAY_SIX: DaySpec<usize, usize> = DaySpec {
+    day_num: 6,
+    part_1_name: "distinct positions visited by guard",
+    part_1,
+    part_2_name: "possible positions for obstruction",
+    part_2,
+};
 
 pub fn part_1(input: &str) -> usize {
     let (obstacles, Dimensions { width, length }, mut current) = parse_input(input);

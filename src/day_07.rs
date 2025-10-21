@@ -1,7 +1,13 @@
 use crate::common::DaySpec;
 use num::pow;
 
-pub const DAY_SEVEN: DaySpec<u64, u64> = DaySpec { day_num: 7, part_1, part_2 };
+pub const DAY_SEVEN: DaySpec<u64, u64> = DaySpec {
+    day_num: 7,
+    part_1_name: "total calibration result",
+    part_1,
+    part_2_name: "total calibration result (including concat)",
+    part_2,
+};
 
 pub fn part_1(input: &str) -> u64 {
     parse_input(input).iter_mut()

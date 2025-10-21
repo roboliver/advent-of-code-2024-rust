@@ -1,6 +1,12 @@
 use crate::common::DaySpec;
 
-pub const DAY_FOUR: DaySpec<usize, usize> = DaySpec { day_num: 4, part_1, part_2 };
+pub const DAY_FOUR: DaySpec<usize, usize> = DaySpec {
+    day_num: 4,
+    part_1_name: "XMAS matches",
+    part_1,
+    part_2_name: "X-MAS matches",
+    part_2,
+};
 
 pub fn part_1(input: &str) -> usize {
     let word_search = parse_input(input);

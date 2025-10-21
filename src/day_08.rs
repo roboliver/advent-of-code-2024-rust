@@ -1,7 +1,13 @@
 use std::collections::{HashMap, HashSet};
 use crate::common::{DaySpec, Dimensions, Point};
 
-pub const DAY_EIGHT: DaySpec<usize, usize> = DaySpec { day_num: 8, part_1, part_2 };
+pub const DAY_EIGHT: DaySpec<usize, usize> = DaySpec {
+    day_num: 8,
+    part_1_name: "antinode locations",
+    part_1,
+    part_2_name: "actual antinode locations",
+    part_2,
+};
 
 pub fn part_1(input: &str) -> usize {
     let (antennas, dimensions) = parse_input(input);
