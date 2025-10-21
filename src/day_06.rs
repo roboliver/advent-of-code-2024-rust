@@ -1,10 +1,10 @@
 use std::collections::HashSet;
-use crate::common::DaySpec;
+use crate::common::{DaySpec, Dimensions, Point};
 
 pub const DAY_SIX: DaySpec<usize, usize> = DaySpec { day_num: 6, part_1, part_2 };
 
 pub fn part_1(input: &str) -> usize {
-    let (Lab {obstacles, length, width}, mut current) = parse_input(input);
+    let (obstacles, Dimensions { width, length }, mut current) = parse_input(input);
     let mut visited = HashSet::new();
     while in_map(current.pos, width, length) {
         visited.insert(current.pos);
@@ -14,9 +14,8 @@ pub fn part_1(input: &str) -> usize {
 }
 
 pub fn part_2(input: &str) -> usize {
-    let (lab, start) = parse_input(input);
-    let route = calculate_route(&lab, &start);
-    let Lab { obstacles, width, length } = lab;
+    let (obstacles, dimensions, start) = parse_input(input);
+    let route = calculate_route(&obstacles, dimensions, &start);
 
     let mut route_traversed = HashSet::new();
     let mut tiles_visited = HashSet::new();
@@ -34,7 +33,7 @@ pub fn part_2(input: &str) -> usize {
         let mut diverted_current = current.clone();
         let mut diverted_route_traversed = HashSet::new();
 
-        while in_map(diverted_current.pos, width, length) {
+        while diverted_current.pos.in_bounds(dimensions.width, dimensions.length) {
             diverted_current = step_guard(&diverted_current, &obstacles, Some(new_obstacle));
 
             if route_traversed.contains(&diverted_current) || diverted_route_traversed.contains(&diverted_current) {
@@ -48,11 +47,14 @@ pub fn part_2(input: &str) -> usize {
     infinite_loop_positions.len()
 }
 
-fn calculate_route(lab: &Lab, start: &DirectedPosition) -> Vec<DirectedPosition> {
+fn calculate_route(
+    obstacles: &HashSet<Point>,
+    dimensions: Dimensions,
+    start: &DirectedPosition
+) -> Vec<DirectedPosition> {
     let mut current = start.clone();
-    let Lab { obstacles, width, length } = lab;
     let mut route = Vec::new();
-    while in_map(current.pos, *width, *length) {
+    while in_map(current.pos, dimensions.width, dimensions.length) {
         route.push(current.clone());
         current = step_guard(&current, obstacles, None);
     }
@@ -77,7 +79,7 @@ fn step_guard(
     }
 }
 
-fn parse_input(input: &str) -> (Lab, DirectedPosition) {
+fn parse_input(input: &str) -> (HashSet<Point>, Dimensions, DirectedPosition) {
     let mut width = 0;
     let mut length = 0;
     let mut obstacles = HashSet::new();
@@ -105,11 +107,8 @@ fn parse_input(input: &str) -> (Lab, DirectedPosition) {
         }
         length += 1;
     }
-    (Lab { obstacles, width, length }, start.unwrap())
+    (obstacles, Dimensions { width, length }, start.unwrap())
 }
-
-#[derive(Eq, PartialEq, Hash, Copy, Clone)]
-struct Point { x: isize, y: isize }
 
 impl Point {
     fn step(&self, dir: Direction) -> Point {
@@ -148,12 +147,6 @@ impl Direction {
 
 #[derive(Eq, PartialEq, Hash, Clone)]
 struct DirectedPosition { pos: Point, dir: Direction }
-
-struct Lab {
-    obstacles: HashSet<Point>,
-    length: usize,
-    width: usize,
-}
 
 #[cfg(test)]
 mod tests {

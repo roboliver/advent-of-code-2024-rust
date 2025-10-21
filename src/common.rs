@@ -1,6 +1,7 @@
 use std::borrow::Cow;
 use std::fmt::Display;
 use std::{fmt, fs, io};
+use std::ops::{Add, Sub};
 use crate::PartOutput;
 
 pub trait Day {
@@ -85,3 +86,33 @@ impl Day for DaySpecTodo {
         PartOutput::Todo
     }
 }
+
+#[derive(Eq, PartialEq, Hash, Copy, Clone)]
+pub struct Point { pub x: isize, pub y: isize }
+
+impl Point {
+    pub fn in_bounds(&self, width: usize, length: usize) -> bool {
+        self.x >= 0 && self.x < isize::try_from(width).unwrap() &&
+            self.y >= 0 && self.y < isize::try_from(length).unwrap()
+    }
+}
+
+impl Add for Point {
+    type Output = Point;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Point { x: self.x + rhs.x, y: self.y + rhs.y }
+    }
+}
+
+impl Sub for Point {
+    type Output = Point;
+
+    fn sub(self, rhs: Self) -> Self::Output {
+        Point { x: self.x - rhs.x, y: self.y - rhs.y }
+    }
+}
+
+#[derive(Copy, Clone)]
+pub struct Dimensions { pub width: usize, pub length: usize }
+

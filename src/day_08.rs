@@ -1,6 +1,5 @@
 use std::collections::{HashMap, HashSet};
-use std::ops::{Add, Sub};
-use crate::common::DaySpec;
+use crate::common::{DaySpec, Dimensions, Point};
 
 pub const DAY_EIGHT: DaySpec<usize, usize> = DaySpec { day_num: 8, part_1, part_2 };
 
@@ -11,14 +10,14 @@ pub fn part_1(input: &str) -> usize {
 
 pub fn part_2(input: &str) -> usize {
     let (antennas, dimensions) = parse_input(input);
-    calculate_antinodes(antennas, dimensions, false, in_bounds)
+    calculate_antinodes(antennas, dimensions, false, Point::in_bounds)
 }
 
 fn calculate_antinodes(
     antennas: HashMap<char, Vec<Point>>,
     dimensions: Dimensions,
     skip_self_antinode: bool,
-    continue_func: fn(Point, usize, usize) -> bool
+    continue_func: fn(&Point, usize, usize) -> bool
 ) -> usize {
     let mut antinodes = HashSet::new();
     for (_, antennas_at_freq) in antennas.iter() {
@@ -54,7 +53,7 @@ fn calculate_for_antenna(
     first_antenna: Point,
     second_antenna: Point,
     skip_self_antinode: bool,
-    continue_func: fn(Point, usize, usize) -> bool,
+    continue_func: fn(&Point, usize, usize) -> bool,
     dimensions: Dimensions,
 ) -> Vec<Point> {
     let mut antinodes = Vec::new();
@@ -65,19 +64,14 @@ fn calculate_for_antenna(
     }
     let Dimensions { width, length } = dimensions;
     let mut has_run_once = false;
-    while !has_run_once || continue_func(current_antinode, width, length) {
-        if in_bounds(current_antinode, width, length) {
+    while !has_run_once || continue_func(&current_antinode, width, length) {
+        if current_antinode.in_bounds(width, length) {
             antinodes.push(current_antinode);
         }
         current_antinode = current_antinode + period;
         has_run_once = true;
     }
     antinodes
-}
-
-fn in_bounds(point: Point, width: usize, length: usize) -> bool {
-    point.x >= 0 && point.x < isize::try_from(width).unwrap() &&
-        point.y >= 0 && point.y < isize::try_from(length).unwrap()
 }
 
 fn parse_input(input: &str) -> (HashMap<char, Vec<Point>>, Dimensions) {
@@ -100,28 +94,6 @@ fn parse_input(input: &str) -> (HashMap<char, Vec<Point>>, Dimensions) {
         length += 1;
     }
     (antennas, Dimensions { width, length })
-}
-
-#[derive(Copy, Clone)]
-struct Dimensions { width: usize, length: usize }
-
-#[derive(Eq, PartialEq, Hash, Copy, Clone)]
-struct Point { x: isize, y: isize }
-
-impl Add for Point {
-    type Output = Point;
-
-    fn add(self, rhs: Self) -> Self::Output {
-        Point { x: self.x + rhs.x, y: self.y + rhs.y }
-    }
-}
-
-impl Sub for Point {
-    type Output = Point;
-
-    fn sub(self, rhs: Self) -> Self::Output {
-        Point { x: self.x - rhs.x, y: self.y - rhs.y }
-    }
 }
 
 #[cfg(test)]
