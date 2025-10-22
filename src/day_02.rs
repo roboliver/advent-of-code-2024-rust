@@ -9,14 +9,14 @@ pub const DAY_TWO: DaySpec<usize, usize> = DaySpec {
     part_2,
 };
 
-pub fn part_1(input: &str) -> usize {
+fn part_1(input: &str) -> usize {
     let reports = parse_input(input);
     reports.iter()
         .filter(|&report| is_safe(report))
         .count()
 }
 
-pub fn part_2(input: &str) -> usize {
+fn part_2(input: &str) -> usize {
     let reports = parse_input(input);
     reports.iter()
         .filter(|&report| is_safe_actual(report))

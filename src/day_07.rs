@@ -9,7 +9,7 @@ pub const DAY_SEVEN: DaySpec<u64, u64> = DaySpec {
     part_2,
 };
 
-pub fn part_1(input: &str) -> u64 {
+fn part_1(input: &str) -> u64 {
     parse_input(input).iter_mut()
         .map(|equation| {
             if has_solution(equation.test, &mut equation.numbers, false) {
@@ -23,7 +23,7 @@ pub fn part_1(input: &str) -> u64 {
         .sum()
 }
 
-pub fn part_2(input: &str) -> u64 {
+fn part_2(input: &str) -> u64 {
     parse_input(input).iter_mut()
         .map(|equation| {
             if has_solution(equation.test, &mut equation.numbers, true) {

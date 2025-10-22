@@ -9,7 +9,7 @@ pub const DAY_SIX: DaySpec<usize, usize> = DaySpec {
     part_2,
 };
 
-pub fn part_1(input: &str) -> usize {
+fn part_1(input: &str) -> usize {
     let (obstacles, Dimensions { width, length }, mut current) = parse_input(input);
     let mut visited = HashSet::new();
     while in_map(current.pos, width, length) {
@@ -19,7 +19,7 @@ pub fn part_1(input: &str) -> usize {
     visited.len()
 }
 
-pub fn part_2(input: &str) -> usize {
+fn part_2(input: &str) -> usize {
     let (obstacles, dimensions, start) = parse_input(input);
     let route = calculate_route(&obstacles, dimensions, &start);
 

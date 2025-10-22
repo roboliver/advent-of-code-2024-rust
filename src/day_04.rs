@@ -8,12 +8,12 @@ pub const DAY_FOUR: DaySpec<usize, usize> = DaySpec {
     part_2,
 };
 
-pub fn part_1(input: &str) -> usize {
+fn part_1(input: &str) -> usize {
     let word_search = parse_input(input);
     do_part(&word_search, &xmas_arrangements(), 'X')
 }
 
-pub fn part_2(input: &str) -> usize {
+fn part_2(input: &str) -> usize {
     let word_search = parse_input(input);
     do_part(&word_search, &crossmas_arrangements(), 'A')
 }

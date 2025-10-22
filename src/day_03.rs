@@ -11,7 +11,7 @@ pub const DAY_THREE: DaySpec<u32, u32> = DaySpec {
 };
 const PATTERN: &str = "mul\\(([1-9][0-9]*),([1-9][0-9]*)\\)";
 
-pub fn part_1(input: &str) -> u32 {
+fn part_1(input: &str) -> u32 {
     let memory = parse_input(input);
     let regex = Regex::new(PATTERN).unwrap();
     regex.captures_iter(&memory)
@@ -19,7 +19,7 @@ pub fn part_1(input: &str) -> u32 {
         .sum()
 }
 
-pub fn part_2(input: &str) -> u32 {
+fn part_2(input: &str) -> u32 {
     let memory = parse_input(input);
     let pattern = String::from("") + "(do\\(\\))|(don't\\(\\))|" + PATTERN;
     let regex = Regex::new(&pattern).unwrap();

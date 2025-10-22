@@ -9,12 +9,12 @@ pub const DAY_EIGHT: DaySpec<usize, usize> = DaySpec {
     part_2,
 };
 
-pub fn part_1(input: &str) -> usize {
+fn part_1(input: &str) -> usize {
     let (antennas, dimensions) = parse_input(input);
     calculate_antinodes(antennas, dimensions, true, |_, _, _| false)
 }
 
-pub fn part_2(input: &str) -> usize {
+fn part_2(input: &str) -> usize {
     let (antennas, dimensions) = parse_input(input);
     calculate_antinodes(antennas, dimensions, false, Point::in_bounds)
 }

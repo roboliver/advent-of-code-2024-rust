@@ -10,7 +10,7 @@ pub const DAY_FIVE: DaySpec<u32, u32> = DaySpec {
     part_2,
 };
 
-pub fn part_1(input: &str) -> u32 {
+fn part_1(input: &str) -> u32 {
     let (page_ordering_rules, updates) = parse_input(input);
     updates.iter()
         .filter(|update| is_ordered(&page_ordering_rules, update))
@@ -18,7 +18,7 @@ pub fn part_1(input: &str) -> u32 {
         .sum()
 }
 
-pub fn part_2(input: &str) -> u32 {
+fn part_2(input: &str) -> u32 {
     let (page_ordering_rules, mut updates) = parse_input(input);
     updates.iter_mut()
         .filter(|update| !is_ordered(&page_ordering_rules, update))

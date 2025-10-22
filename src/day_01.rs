@@ -9,7 +9,7 @@ pub const DAY_ONE: DaySpec<u32, usize> = DaySpec {
     part_2,
 };
 
-pub fn part_1(input: &str) -> u32 {
+fn part_1(input: &str) -> u32 {
     let (mut left, mut right) = parse_input(input);
     left.sort();
     right.sort();
@@ -18,7 +18,7 @@ pub fn part_1(input: &str) -> u32 {
         .sum()
 }
 
-pub fn part_2(input: &str) -> usize {
+fn part_2(input: &str) -> usize {
     let (left, right) = parse_input(input);
     let right_counts: HashMap<u32, usize> = right.iter()
         .fold(HashMap::new(), |mut counts, &x| {
