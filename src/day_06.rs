@@ -1,5 +1,5 @@
+use crate::common::{DaySpec, Dimensions, Direction, Point};
 use std::collections::HashSet;
-use crate::common::{DaySpec, Dimensions, Point};
 
 pub const DAY_SIX: DaySpec<usize, usize> = DaySpec {
     day_num: 6,
@@ -79,7 +79,7 @@ fn step_guard(
     let next_pos = current.pos.step(current.dir);
     if obstacles.contains(&next_pos) || extra_obstacle.map_or(false, |o| o == next_pos)
     {
-        DirectedPosition { pos: current.pos, dir: current.dir.rotate() }
+        DirectedPosition { pos: current.pos, dir: current.dir.rotate_clockwise() }
     } else {
         DirectedPosition { pos: next_pos, dir: current.dir }
     }
@@ -127,9 +127,6 @@ impl Point {
     }
 }
 
-#[derive(Eq, PartialEq, Hash, Copy, Clone)]
-enum Direction { NORTH, EAST, SOUTH, WEST }
-
 impl Direction {
     fn from_tile(tile: char) -> Option<Direction> {
         match tile {
@@ -138,15 +135,6 @@ impl Direction {
             'v' => Some(Direction::SOUTH),
             '<' => Some(Direction::WEST),
             _ => None,
-        }
-    }
-
-    fn rotate(&self) -> Direction {
-        match self {
-            Direction::NORTH => Direction::EAST,
-            Direction::EAST => Direction::SOUTH,
-            Direction::SOUTH => Direction::WEST,
-            Direction::WEST => Direction::NORTH,
         }
     }
 }

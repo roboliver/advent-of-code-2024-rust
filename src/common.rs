@@ -1,8 +1,8 @@
+use crate::PartOutput;
 use std::borrow::Cow;
 use std::fmt::Display;
-use std::{fmt, fs, io};
 use std::ops::{Add, Sub};
-use crate::PartOutput;
+use std::{fmt, fs, io};
 
 pub trait Day {
     fn read_input(&'_ self) -> Result<Cow<'_, str>, ReadError>;
@@ -130,6 +130,38 @@ impl Sub for Point {
 
     fn sub(self, rhs: Self) -> Self::Output {
         Point { x: self.x - rhs.x, y: self.y - rhs.y }
+    }
+}
+
+#[derive(Eq, PartialEq, Hash, Copy, Clone)]
+pub enum Direction { NORTH, EAST, SOUTH, WEST }
+
+impl Direction {
+    pub fn reverse(&self) -> Direction {
+        match self {
+            Direction::NORTH => Direction::SOUTH,
+            Direction::EAST => Direction::WEST,
+            Direction::SOUTH => Direction::NORTH,
+            Direction::WEST => Direction::EAST,
+        }
+    }
+
+    pub fn rotate_clockwise(&self) -> Direction {
+        match self {
+            Direction::NORTH => Direction::EAST,
+            Direction::EAST => Direction::SOUTH,
+            Direction::SOUTH => Direction::WEST,
+            Direction::WEST => Direction::NORTH,
+        }
+    }
+
+    pub fn rotate_anticlockwise(&self) -> Direction {
+        match self {
+            Direction::NORTH => Direction::WEST,
+            Direction::EAST => Direction::NORTH,
+            Direction::SOUTH => Direction::EAST,
+            Direction::WEST => Direction::SOUTH,
+        }
     }
 }
 
