@@ -49,13 +49,15 @@ fn part_2_sized(input: &str, width: usize, length: usize) -> usize {
     let mut horizontal_band_offset = None;
     let mut vertical_band_offset = None;
     let mut i = 0;
+    let mut by_x = vec![RobotsAfter { seconds: 0, count: 0 }; width];
+    let mut by_y = vec![RobotsAfter { seconds: 0, count : 0}; length];
     while i < usize::max(width, length) &&
         (horizontal_band_offset.is_none() || vertical_band_offset.is_none()) {
-        let room = calc_room_after(&robots, width, length, i);
-        if aligned(&room.by_x, robots.len()) {
+        calc_room_after(&robots, &mut by_x, &mut by_y, i);
+        if aligned(&by_x, robots.len(), i) {
             vertical_band_offset = Some(i);
         }
-        if aligned(&room.by_y, robots.len()) {
+        if aligned(&by_y, robots.len(), i) {
             horizontal_band_offset = Some(i);
         }
         i += 1;
@@ -73,41 +75,6 @@ fn part_2_sized(input: &str, width: usize, length: usize) -> usize {
         }
     }
     panic!("didn't find overlap in expected iterations");
-}
-
-fn calc_room_after(robots: &[Robot], width: usize, length: usize, seconds: usize) -> Room {
-    let mut by_x = vec![0; width];
-    let mut by_y = vec![0; length];
-    for robot in robots {
-        let x = calc_position_after(robot.position.x, robot.velocity.x, width, seconds);
-        let y = calc_position_after(robot.position.y, robot.velocity.y, length, seconds);
-        by_x[x] += 1;
-        by_y[y] += 1;
-    }
-    Room { by_x, by_y }
-}
-
-fn aligned(
-    room: &[usize],
-    robot_count: usize,
-) -> bool {
-    let band_width = room.len() / 3;
-    let mut count = 0;
-    for i in 0..band_width {
-        count += room[i];
-    }
-    for i in band_width..room.len() {
-        if is_band(count, robot_count) {
-            return true;
-        }
-        count -= room[i - band_width];
-        count += room[i];
-    }
-    is_band(count, robot_count)
-}
-
-fn is_band(count: usize, robot_count: usize) -> bool {
-    count as f64 > robot_count as f64 * 0.75
 }
 
 fn calc_position_after(
@@ -138,6 +105,61 @@ fn determine_quadrant(x: usize, y: usize, width: usize, length: usize) -> Quadra
     }
 }
 
+fn calc_room_after(robots: &[Robot], by_x: &mut [RobotsAfter], by_y: &mut [RobotsAfter], seconds: usize) {
+    let width = by_x.len();
+    let length = by_y.len();
+    for robot in robots {
+        let x = calc_position_after(robot.position.x, robot.velocity.x, width, seconds);
+        by_x[x] = update_room(&by_x[x], seconds);
+        let y = calc_position_after(robot.position.y, robot.velocity.y, length, seconds);
+        by_y[y] = update_room(&by_y[y], seconds);
+    }
+}
+
+fn update_room(robots_after: &RobotsAfter, seconds: usize) -> RobotsAfter {
+    if robots_after.seconds == seconds {
+        RobotsAfter { seconds, count: robots_after.count + 1 }
+    } else {
+        RobotsAfter { seconds, count: 1 }
+    }
+}
+
+fn aligned(
+    room: &[RobotsAfter],
+    robot_count: usize,
+    seconds: usize,
+) -> bool {
+    let band_width = room.len() / 3;
+    let mut count = 0;
+    for i in 0..band_width {
+        plus_count(&room[i], seconds, &mut count);
+    }
+    for i in band_width..room.len() {
+        if is_band(count, robot_count) {
+            return true;
+        }
+        minus_count(&room[i - band_width], seconds, &mut count);
+        plus_count(&room[i], seconds, &mut count);
+    }
+    is_band(count, robot_count)
+}
+
+fn plus_count(robots_after: &RobotsAfter, seconds: usize, count: &mut usize) {
+    if robots_after.seconds == seconds {
+        *count += robots_after.count;
+    }
+}
+
+fn minus_count(robots_after: &RobotsAfter, seconds: usize, count: &mut usize) {
+    if robots_after.seconds == seconds {
+        *count -= robots_after.count;
+    }
+}
+
+fn is_band(count: usize, robot_count: usize) -> bool {
+    count as f64 > robot_count as f64 * 0.75
+}
+
 fn parse_input(input: &str) -> Vec<Robot> {
     input.lines()
         .map(|line| {
@@ -160,9 +182,10 @@ struct Robot {
     velocity: Point,
 }
 
-struct Room {
-    by_x: Vec<usize>,
-    by_y: Vec<usize>,
+#[derive(Clone)]
+struct RobotsAfter {
+    seconds: usize,
+    count: usize,
 }
 
 #[cfg(test)]
