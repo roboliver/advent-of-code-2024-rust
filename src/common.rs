@@ -134,33 +134,33 @@ impl Sub for Point {
 }
 
 #[derive(Eq, PartialEq, Hash, Copy, Clone)]
-pub enum Direction { NORTH, EAST, SOUTH, WEST }
+pub enum Direction { North, East, South, West }
 
 impl Direction {
     pub fn reverse(&self) -> Direction {
         match self {
-            Direction::NORTH => Direction::SOUTH,
-            Direction::EAST => Direction::WEST,
-            Direction::SOUTH => Direction::NORTH,
-            Direction::WEST => Direction::EAST,
+            Direction::North => Direction::South,
+            Direction::East => Direction::West,
+            Direction::South => Direction::North,
+            Direction::West => Direction::East,
         }
     }
 
     pub fn rotate_clockwise(&self) -> Direction {
         match self {
-            Direction::NORTH => Direction::EAST,
-            Direction::EAST => Direction::SOUTH,
-            Direction::SOUTH => Direction::WEST,
-            Direction::WEST => Direction::NORTH,
+            Direction::North => Direction::East,
+            Direction::East => Direction::South,
+            Direction::South => Direction::West,
+            Direction::West => Direction::North,
         }
     }
 
     pub fn rotate_anticlockwise(&self) -> Direction {
         match self {
-            Direction::NORTH => Direction::WEST,
-            Direction::EAST => Direction::NORTH,
-            Direction::SOUTH => Direction::EAST,
-            Direction::WEST => Direction::SOUTH,
+            Direction::North => Direction::West,
+            Direction::East => Direction::North,
+            Direction::South => Direction::East,
+            Direction::West => Direction::South,
         }
     }
 }

@@ -119,10 +119,10 @@ fn parse_input(input: &str) -> (HashSet<Point>, Dimensions, DirectedPosition) {
 impl Point {
     fn step(&self, dir: Direction) -> Point {
         match dir {
-            Direction::NORTH => Point { x: self.x, y: self.y - 1 },
-            Direction::EAST => Point { x: self.x + 1, y: self.y },
-            Direction::SOUTH => Point { x: self.x, y: self.y + 1 },
-            Direction::WEST => Point { x: self.x - 1, y: self.y },
+            Direction::North => Point { x: self.x, y: self.y - 1 },
+            Direction::East => Point { x: self.x + 1, y: self.y },
+            Direction::South => Point { x: self.x, y: self.y + 1 },
+            Direction::West => Point { x: self.x - 1, y: self.y },
         }
     }
 }
@@ -130,10 +130,10 @@ impl Point {
 impl Direction {
     fn from_tile(tile: char) -> Option<Direction> {
         match tile {
-            '^' => Some(Direction::NORTH),
-            '>' => Some(Direction::EAST),
-            'v' => Some(Direction::SOUTH),
-            '<' => Some(Direction::WEST),
+            '^' => Some(Direction::North),
+            '>' => Some(Direction::East),
+            'v' => Some(Direction::South),
+            '<' => Some(Direction::West),
             _ => None,
         }
     }

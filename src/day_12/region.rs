@@ -13,10 +13,10 @@ impl Region {
 
     pub fn add_plant(&mut self, row: isize, col: isize) {
         let mut plant = Plant::new();
-        self.attach_adjacent(row - 1, col, &mut plant, Direction::NORTH);
-        self.attach_adjacent(row + 1, col, &mut plant, Direction::SOUTH);
-        self.attach_adjacent(row, col - 1, &mut plant, Direction::WEST);
-        self.attach_adjacent(row, col + 1, &mut plant, Direction::EAST);
+        self.attach_adjacent(row - 1, col, &mut plant, Direction::North);
+        self.attach_adjacent(row + 1, col, &mut plant, Direction::South);
+        self.attach_adjacent(row, col - 1, &mut plant, Direction::West);
+        self.attach_adjacent(row, col + 1, &mut plant, Direction::East);
         self.plants.insert((row, col), plant);
     }
 
@@ -39,7 +39,7 @@ impl Region {
 
     pub fn number_of_sides(&self) -> usize {
         let mut sides = 0;
-        for dir in [Direction::NORTH, Direction::EAST, Direction::SOUTH, Direction::WEST] {
+        for dir in [Direction::North, Direction::East, Direction::South, Direction::West] {
             let mut borders_in_dir = HashMap::new();
             for ((row, col), plant) in self.plants.iter() {
                 if !plant.has_adjacent(dir) {
@@ -47,7 +47,7 @@ impl Region {
                         // for horizontal borders (north, south) the edge is the row, and we will
                         // be looking for blocks of adjacent positions, i.e. columns, along this
                         // edge; for vertical borders (east, west) it's the other way round.
-                        if dir == Direction::NORTH || dir == Direction::SOUTH {
+                        if dir == Direction::North || dir == Direction::South {
                             (row, col)
                         } else {
                             (col, row)
@@ -88,19 +88,19 @@ impl Plant {
 
     fn add_adjacent(&mut self, dir: Direction) {
         match dir {
-            Direction::NORTH => { self.has_north = true; }
-            Direction::EAST => { self.has_east = true; }
-            Direction::SOUTH => { self.has_south = true; }
-            Direction::WEST => { self.has_west = true; }
+            Direction::North => { self.has_north = true; }
+            Direction::East => { self.has_east = true; }
+            Direction::South => { self.has_south = true; }
+            Direction::West => { self.has_west = true; }
         }
     }
 
     fn has_adjacent(&self, dir: Direction) -> bool {
         match dir {
-            Direction::NORTH => self.has_north,
-            Direction::EAST => self.has_east,
-            Direction::SOUTH => self.has_south,
-            Direction::WEST => self.has_west,
+            Direction::North => self.has_north,
+            Direction::East => self.has_east,
+            Direction::South => self.has_south,
+            Direction::West => self.has_west,
         }
     }
 

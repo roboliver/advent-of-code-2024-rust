@@ -66,8 +66,7 @@ fn parse_input(input: &str) -> Vec<Equation> {
 }
 
 fn parse_equation(line: &str) -> Equation {
-    let parts: Vec<&str> = line.split(": ").take(2).collect();
-    let (test, numbers) = (parts[0], parts[1]);
+    let (test, numbers) = line.split_once(": ").unwrap();
     Equation {
         test: test.parse().unwrap(),
         numbers: numbers.split(" ")
