@@ -1,7 +1,7 @@
-mod region;
+mod garden;
 
 use crate::common::DaySpec;
-use crate::day_12::region::Region;
+use crate::day_12::garden::Region;
 
 pub const DAY_TWELVE: DaySpec<usize, usize> = DaySpec {
     day_num: 12,
