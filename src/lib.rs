@@ -17,6 +17,7 @@ mod day_15;
 mod day_16;
 mod day_17;
 mod day_18;
+mod day_19;
 
 use crate::common::{Day, DaySpecTodo};
 use crate::day_01::DAY_ONE;
@@ -37,6 +38,7 @@ use crate::day_15::DAY_FIFTEEN;
 use crate::day_16::DAY_SIXTEEN;
 use crate::day_17::DAY_SEVENTEEN;
 use crate::day_18::DAY_EIGHTEEN;
+use crate::day_19::DAY_NINETEEN;
 
 pub fn days<'a>() -> Vec<Box<dyn Day>> {
     let mut days: Vec<Box<dyn Day>> = vec![
@@ -58,6 +60,7 @@ pub fn days<'a>() -> Vec<Box<dyn Day>> {
         Box::new(DAY_SIXTEEN.clone()),
         Box::new(DAY_SEVENTEEN.clone()),
         Box::new(DAY_EIGHTEEN.clone()),
+        Box::new(DAY_NINETEEN.clone()),
     ];
     for day_todo_num in days.len()+1..=25 {
         let day_todo = DaySpecTodo {
