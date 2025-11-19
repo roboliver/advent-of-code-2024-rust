@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use crate::common::DaySpec;
 
-pub const DAY_ONE: DaySpec<u32, usize> = DaySpec {
+pub const DAY_ONE: DaySpec<u32, u32> = DaySpec {
     day_num: 1,
     part_1_name: "total distance",
     part_1,
@@ -18,7 +18,7 @@ fn part_1(input: &str) -> u32 {
         .sum()
 }
 
-fn part_2(input: &str) -> usize {
+fn part_2(input: &str) -> u32 {
     let (left, right) = parse_input(input);
     let right_counts: HashMap<u32, usize> = right.iter()
         .fold(HashMap::new(), |mut counts, &x| {
@@ -26,7 +26,7 @@ fn part_2(input: &str) -> usize {
             counts
         });
     left.iter()
-        .map(|&x| (x as usize) * right_counts.get(&x).unwrap_or(&0))
+        .map(|&x| x * *right_counts.get(&x).unwrap_or(&0) as u32)
         .sum()
 }
 

@@ -1,6 +1,6 @@
 use crate::common::{DaySpec, Point};
 
-pub const DAY_THIRTEEN: DaySpec<isize, isize> = DaySpec {
+pub const DAY_THIRTEEN: DaySpec<u32, u64> = DaySpec {
     day_num: 13,
     part_1_name: "fewest tokens needed",
     part_1,
@@ -8,15 +8,15 @@ pub const DAY_THIRTEEN: DaySpec<isize, isize> = DaySpec {
     part_2,
 };
 
-fn part_1(input: &str) -> isize {
+fn part_1(input: &str) -> u32 {
     parse_input(input).into_iter()
-        .map(|claw_machine| token_spend(claw_machine, false))
+        .map(|claw_machine| token_spend(claw_machine, false) as u32)
         .sum()
 }
 
-fn part_2(input: &str) -> isize {
+fn part_2(input: &str) -> u64 {
     parse_input(input).into_iter()
-        .map(|claw_machine| token_spend(claw_machine, true))
+        .map(|claw_machine| token_spend(claw_machine, true) as u64)
         .sum()
 }
 

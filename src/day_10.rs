@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use crate::common::{DaySpec, Point};
 
-pub const DAY_TEN: DaySpec<usize, usize> = DaySpec {
+pub const DAY_TEN: DaySpec<u32, u32> = DaySpec {
     day_num: 10,
     part_1_name: "trailhead scores sum",
     part_1,
@@ -9,26 +9,26 @@ pub const DAY_TEN: DaySpec<usize, usize> = DaySpec {
     part_2,
 };
 
-fn part_1(input: &str) -> usize {
+fn part_1(input: &str) -> u32 {
     let topography = parse_input(input);
     let mut sum = 0;
     for row in 0..topography.len() {
         for col in 0..topography[0].len() {
             if topography[row][col] == 0 {
-                sum += calculate_trailhead_score_sum(&topography, row, col);
+                sum += calculate_trailhead_score_sum(&topography, row, col) as u32;
             }
         }
     }
     sum
 }
 
-fn part_2(input: &str) -> usize {
+fn part_2(input: &str) -> u32 {
     let topography = parse_input(input);
     let mut sum = 0;
     for row in 0..topography.len() {
         for col in 0..topography[0].len() {
             if topography[row][col] == 0 {
-                sum += calculate_trailhead_rating_sum(&topography, row, col);
+                sum += calculate_trailhead_rating_sum(&topography, row, col) as u32;
             }
         }
     }

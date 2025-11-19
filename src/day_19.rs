@@ -1,7 +1,7 @@
 use std::collections::{HashSet, VecDeque};
 use crate::common::DaySpec;
 
-pub const DAY_NINETEEN:DaySpec<usize, usize> = DaySpec {
+pub const DAY_NINETEEN: DaySpec<u32, u64> = DaySpec {
     day_num: 19,
     part_1_name: "possible designs",
     part_1,
@@ -9,19 +9,19 @@ pub const DAY_NINETEEN:DaySpec<usize, usize> = DaySpec {
     part_2,
 };
 
-fn part_1(input: &str) -> usize {
+fn part_1(input: &str) -> u32 {
     let (towels, designs) = parse_input(input);
     let longest_towel = longest_towel(&towels);
     designs.iter()
         .filter(|&&design| ways_to_make_design(design, longest_towel, &towels) > 0)
-        .count()
+        .count() as u32
 }
 
-fn part_2(input: &str) -> usize {
+fn part_2(input: &str) -> u64 {
     let (towels, designs) = parse_input(input);
     let longest_towel = longest_towel(&towels);
     designs.iter()
-        .map(|design| ways_to_make_design(design, longest_towel, &towels))
+        .map(|&design| ways_to_make_design(design, longest_towel, &towels))
         .sum()
 }
 
@@ -32,7 +32,7 @@ fn longest_towel(towels: &HashSet<&str>) -> usize {
         .unwrap()
 }
 
-fn ways_to_make_design(design: &str, longest_towel: usize, towels: &HashSet<&str>) -> usize {
+fn ways_to_make_design(design: &str, longest_towel: usize, towels: &HashSet<&str>) -> u64 {
     let mut arrangements = VecDeque::from(
         [ArrangementCount { arrangement: "", count: 1 }]
     );
@@ -65,7 +65,7 @@ fn parse_input(input: &str) -> (HashSet<&str>, Vec<&str>) {
 
 struct ArrangementCount<'a> {
     arrangement: &'a str,
-    count: usize,
+    count: u64,
 }
 
 #[cfg(test)]

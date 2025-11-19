@@ -1,7 +1,7 @@
 use std::cmp::PartialEq;
 use crate::common::DaySpec;
 
-pub const DAY_FIFTEEN: DaySpec<usize, usize> = DaySpec {
+pub const DAY_FIFTEEN: DaySpec<u32, u32> = DaySpec {
     day_num: 15,
     part_1_name: "box coordinates sum",
     part_1,
@@ -9,17 +9,17 @@ pub const DAY_FIFTEEN: DaySpec<usize, usize> = DaySpec {
     part_2,
 };
 
-fn part_1(input: &str) -> usize {
+fn part_1(input: &str) -> u32 {
     let (warehouse_lines, moves) = parse_input(input);
     do_part(&mut parse_warehouse(&warehouse_lines), &moves)
 }
 
-fn part_2(input: &str) -> usize {
+fn part_2(input: &str) -> u32 {
     let (warehouse_lines, moves) = parse_input(input);
     do_part(&mut parse_warehouse_wide(&warehouse_lines), &moves)
 }
 
-fn do_part(warehouse: &mut [Vec<Tile>], moves: &[Move]) -> usize {
+fn do_part(warehouse: &mut [Vec<Tile>], moves: &[Move]) -> u32 {
     let mut robot = find_robot(&warehouse);
     for mv in moves {
         robot = do_move(warehouse, robot, *mv);
@@ -194,12 +194,12 @@ fn set_tile(warehouse: &mut [Vec<Tile>], point: Point, tile: Tile) {
     warehouse[point.y][point.x] = tile;
 }
 
-fn box_coordinate_sum(warehouse: &[Vec<Tile>]) -> usize {
+fn box_coordinate_sum(warehouse: &[Vec<Tile>]) -> u32 {
     warehouse.iter().enumerate()
         .flat_map(|(row, tiles)| {
             tiles.iter().enumerate()
                 .filter(|(_, tile)| **tile == Tile::Box || **tile == Tile::LeftBox)
-                .map(move |(col, _)| (100 * row) + col)
+                .map(move |(col, _)| ((100 * row) + col) as u32)
         })
         .sum()
 }

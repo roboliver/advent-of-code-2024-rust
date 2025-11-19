@@ -1,6 +1,6 @@
 use crate::common::DaySpec;
 
-pub const DAY_FOUR: DaySpec<usize, usize> = DaySpec {
+pub const DAY_FOUR: DaySpec<u32, u32> = DaySpec {
     day_num: 4,
     part_1_name: "XMAS matches",
     part_1,
@@ -8,17 +8,21 @@ pub const DAY_FOUR: DaySpec<usize, usize> = DaySpec {
     part_2,
 };
 
-fn part_1(input: &str) -> usize {
+fn part_1(input: &str) -> u32 {
     let word_search = parse_input(input);
     do_part(&word_search, &xmas_arrangements(), 'X')
 }
 
-fn part_2(input: &str) -> usize {
+fn part_2(input: &str) -> u32 {
     let word_search = parse_input(input);
     do_part(&word_search, &crossmas_arrangements(), 'A')
 }
 
-fn do_part(word_search: &[Vec<char>], arrangements: &[Vec<LetterPosition>], starting_letter: char) -> usize {
+fn do_part(
+    word_search: &[Vec<char>],
+    arrangements: &[Vec<LetterPosition>],
+    starting_letter: char
+) -> u32 {
     let mut matches = 0;
     for row in 0..word_search.len() {
         for col in 0..word_search[row].len() {
@@ -26,7 +30,7 @@ fn do_part(word_search: &[Vec<char>], arrangements: &[Vec<LetterPosition>], star
             if letter == starting_letter {
                 matches += arrangements.iter()
                     .filter(|it| check_arrangement(word_search, it, row, col))
-                    .count();
+                    .count() as u32;
             }
         }
     }

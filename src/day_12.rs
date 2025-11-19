@@ -3,7 +3,7 @@ mod garden;
 use crate::common::DaySpec;
 use crate::day_12::garden::Region;
 
-pub const DAY_TWELVE: DaySpec<usize, usize> = DaySpec {
+pub const DAY_TWELVE: DaySpec<u32, u32> = DaySpec {
     day_num: 12,
     part_1_name: "total fencing price",
     part_1,
@@ -11,15 +11,15 @@ pub const DAY_TWELVE: DaySpec<usize, usize> = DaySpec {
     part_2,
 };
 
-fn part_1(input: &str) -> usize {
+fn part_1(input: &str) -> u32 {
     parse_input(input).iter()
-        .map(|region| region.area() * region.perimeter())
+        .map(|region| (region.area() * region.perimeter()) as u32)
         .sum()
 }
 
-fn part_2(input: &str) -> usize {
+fn part_2(input: &str) -> u32 {
     parse_input(input).iter()
-        .map(|region| region.area() * region.number_of_sides())
+        .map(|region| (region.area() * region.number_of_sides()) as u32)
         .sum()
 }
 

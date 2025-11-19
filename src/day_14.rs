@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use crate::common::{DaySpec, Point};
 
-pub const DAY_FOURTEEN: DaySpec<usize, usize> = DaySpec {
+pub const DAY_FOURTEEN: DaySpec<u32, usize> = DaySpec {
     day_num: 14,
     part_1_name: "safety factor after 100 seconds",
     part_1,
@@ -9,13 +9,13 @@ pub const DAY_FOURTEEN: DaySpec<usize, usize> = DaySpec {
     part_2,
 };
 
-fn part_1(input: &str) -> usize {
+fn part_1(input: &str) -> u32 {
     part_1_sized(input, 101, 103)
 }
 
-fn part_1_sized(input: &str, width: usize, length: usize) -> usize {
+fn part_1_sized(input: &str, width: usize, length: usize) -> u32 {
     let robots = parse_input(input);
-    let mut quadrants: HashMap<Quadrant, usize> = [
+    let mut quadrants: HashMap<Quadrant, u32> = [
         Quadrant::UpperLeft,
         Quadrant::UpperRight,
         Quadrant::LowerLeft,
@@ -37,7 +37,7 @@ fn part_1_sized(input: &str, width: usize, length: usize) -> usize {
         };
     }
     quadrants.values()
-        .fold(1, |a, b| a * b)
+        .fold(1, |quadrant, count| quadrant * count)
 }
 
 fn part_2(input: &str) -> usize {
